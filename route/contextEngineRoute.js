@@ -2,17 +2,16 @@ const express = require("express");
 const { getAllContextEngine, getContextEngine, addContextEngine, editContextEngine } = require("../controller/contextEngineController");
 const router = express.Router();
 
-// Home page route.
-router.get("/getAll", getAllContextEngine);
+router.get("/todo/get", getAllContextEngine);
 
-router.get("/get/:id", getContextEngine);
+router.get("/todo/:id", getContextEngine);
 
 
 
 
 // About page route.
-router.post("/add", addContextEngine);
+router.post("/todo", addContextEngine);
 
-router.put("/update/:id", editContextEngine);
+router.put("/todo/:id", editContextEngine);
 
 module.exports = router;

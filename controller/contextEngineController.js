@@ -25,7 +25,15 @@ const getContextEngine = async (req, res) => {
 
 const addContextEngine = async (req, res) => {
     const { name, autoSync, goal, nextSync } = req.body || {}
+
     try {
+        if (!name) {
+            res.status(400).send({ message: "Error: Name is required", statusCode: 400 });
+        } else if (!goal) {
+            res.status(400).send({ message: "Error: Goal is required", statusCode: 400 });
+        } else if (!nextSync) {
+            res.status(400).send({ message: "Error: Next Sync is required", statusCode: 400 });
+        }
         const contextEngine = new ContextEngineModel({ name, autoSync: !!autoSync, goal, nextSync });
         const successfulResult = await contextEngine.save();
         res.status(201).send({ message: "Successfully created.", statusCode: 201, data: successfulResult })
@@ -36,14 +44,20 @@ const addContextEngine = async (req, res) => {
 
 const editContextEngine = async (req, res) => {
     const id = req?.params?.id
-
+    const { name, autoSync, goal, nextSync } = req.body || {}
     try {
         if (!id) {
             res.status(400).send({ message: "Error: ID is required", statusCode: 400 });
+        } else if (!name) {
+            res.status(400).send({ message: "Error: Name is required", statusCode: 400 });
+        } else if (!goal) {
+            res.status(400).send({ message: "Error: Goal is required", statusCode: 400 });
+        } else if (!nextSync) {
+            res.status(400).send({ message: "Error: Next Sync is required", statusCode: 400 });
         }
         const updatedRecord = await ContextEngineModel.findByIdAndUpdate(
             id,
-            req.body || {},
+            { name, autoSync: !!autoSync, goal, nextSync },
             { new: true, runValidators: true }
         );
         res.status(200).send({ message: "Successfully updated", statusCode: 200, data: updatedRecord })
